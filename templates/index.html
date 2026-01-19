@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TrustCheck AI | Check if a Website is Safe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header class="topbar">
+    <div class="brand">
+        <img src="{{ url_for('static', filename='images/logo.png') }}">
+        <span>TrustCheck AI</span>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <h1>Check if a Website is <span>Safe or a Scam</span></h1>
+    <p>AI-powered trust analysis using security signals, domain data, and scam indicators.</p>
+
+    <form method="POST" class="check-form">
+        <input type="text" name="url" placeholder="Enter website URL (example.com)" required>
+        <button type="submit">Check Trust Score</button>
+    </form>
+
+    <p class="hero-note">Free • No login required • Instant result</p>
+</section>
+
+<!-- TRUST SIGNALS -->
+<section class="trust-strip">
+    <div>🔒 SSL & Security</div>
+    <div>🌐 Domain History</div>
+    <div>⚠️ Scam Signals</div>
+    <div>📊 Reputation Data</div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+    <h2>Why TrustCheck AI?</h2>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h3>AI-Driven Analysis</h3>
+            <p>Combines multiple public signals to detect scam patterns and risks.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Instant Trust Score</h3>
+            <p>Get a clear 0–100 score with safety classification in seconds.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Actionable Advice</h3>
+            <p>Understand what steps to take before sharing data or making payments.</p>
+        </div>
+    </div>
+</section>
+
+<!-- DISCLAIMER -->
+<footer class="footer">
+    <p>TrustCheck AI provides automated risk analysis and does not guarantee safety.</p>
+    <p>© 2026 TrustCheck AI</p>
+</footer>
+
+</body>
+</html>

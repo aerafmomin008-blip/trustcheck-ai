@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trust Result | TrustCheck AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header class="topbar">
+    <div class="brand">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="TrustCheck AI Logo">
+        <span>TrustCheck AI</span>
+    </div>
+</header>
+
+<section class="result-box">
+
+    <h2>Website Trust Analysis</h2>
+    <p class="checked-url">{{ url }}</p>
+
+    <!-- TRUST SCORE -->
+    <div class="score-circle {{ result.color }}">
+        <span class="score-number">{{ result.score }}</span>
+        <span class="score-label">Trust Score</span>
+    </div>
+
+    <!-- STATUS -->
+    <h3 class="status {{ result.color }}">{{ result.status }}</h3>
+    <p class="data-source">Source: {{ result.source }}</p>
+
+    <!-- BREAKDOWN -->
+    <div class="breakdown">
+        <h4>Trust Score Breakdown</h4>
+
+        <div class="bar">
+            <div class="bar-header">
+                <span>Security</span>
+                <span>{{ result.security }}/100</span>
+            </div>
+            <div class="progress">
+                <div style="width: {{ result.security }}%"></div>
+            </div>
+        </div>
+
+        <div class="bar">
+            <div class="bar-header">
+                <span>Domain Reputation</span>
+                <span>{{ result.reputation }}/100</span>
+            </div>
+            <div class="progress">
+                <div style="width: {{ result.reputation }}%"></div>
+            </div>
+        </div>
+
+        <div class="bar">
+            <div class="bar-header">
+                <span>Risk Indicators</span>
+                <span>{{ result.risk }}/100</span>
+            </div>
+            <div class="progress">
+                <div style="width: {{ result.risk }}%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WARNINGS -->
+    <div class="warnings">
+        <h4>Detected Risk Signals</h4>
+        {% if result.reasons %}
+            <ul>
+                {% for reason in result.reasons %}
+                    <li>{{ reason }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No significant risk indicators detected.</p>
+        {% endif %}
+    </div>
+
+    <!-- ACTION -->
+    <a href="/" class="back-btn">Check another website</a>
+
+</section>
+
+</body>
+</html>
