@@ -1,24 +1,43 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 import joblib
 
 # Load dataset
-data = pd.read_csv("website_trust_dataset.csv")
+df = pd.read_csv("data/websites.csv")
 
-X = data.drop("label", axis=1)
-y = data["label"]
+# Features & label
+X = df[
+    [
+        "domain_age_days",
+        "ssl_valid",
+        "whois_private",
+        "reputation_score",
+        "malware_flag",
+        "phishing_flag"
+    ]
+]
+
+y = df["label"]
 
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
+    X, y, test_size=0.25, random_state=42
 )
 
-# Train model
-model = RandomForestClassifier(n_estimators=100)
+# Model
+model = RandomForestClassifier(
+    n_estimators=100,
+    random_state=42
+)
+
 model.fit(X_train, y_train)
 
-# Save model
-joblib.dump(model, "model/model.pkl")
+# Accuracy
+preds = model.predict(X_test)
+accuracy = accuracy_score(y_test, preds)
+print("Model accuracy:", accuracy)
 
-print("✅ Model trained and saved successfully")
+# Save model
+joblib.dump(model, "model/trust_model.pkl")

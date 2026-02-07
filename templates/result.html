@@ -2,86 +2,100 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Trust Result | TrustCheck AI</title>
+    <title>Trust Report | TrustCheck AI</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
+<div class="container">
 
-<header class="topbar">
-    <div class="brand">
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="TrustCheck AI Logo">
-        <span>TrustCheck AI</span>
-    </div>
-</header>
+    <!-- HEADER -->
+    <header class="header">
+        <h1>Trust Analysis Report</h1>
+        <p class="subtitle">Automated Website Credibility Assessment</p>
+    </header>
 
-<section class="result-box">
-
-    <h2>Website Trust Analysis</h2>
-    <p class="checked-url">{{ url }}</p>
-
-    <!-- TRUST SCORE -->
-    <div class="score-circle {{ result.color }}">
-        <span class="score-number">{{ result.score }}</span>
-        <span class="score-label">Trust Score</span>
-    </div>
-
-    <!-- STATUS -->
-    <h3 class="status {{ result.color }}">{{ result.status }}</h3>
-    <p class="data-source">Source: {{ result.source }}</p>
-
-    <!-- BREAKDOWN -->
-    <div class="breakdown">
-        <h4>Trust Score Breakdown</h4>
-
-        <div class="bar">
-            <div class="bar-header">
-                <span>Security</span>
-                <span>{{ result.security }}/100</span>
-            </div>
-            <div class="progress">
-                <div style="width: {{ result.security }}%"></div>
-            </div>
+    <!-- SCORE CARD -->
+    <section class="score-card {{ verdict|lower }}">
+        <div class="score-circle">
+            <span class="score">{{ trust_score }}</span>
+            <span class="outof">/100</span>
         </div>
 
-        <div class="bar">
-            <div class="bar-header">
-                <span>Domain Reputation</span>
-                <span>{{ result.reputation }}/100</span>
+        <div class="score-info">
+            <p class="label">Analyzed Website</p>
+            <h2>{{ website }}</h2>
+
+            <span class="badge {{ verdict|lower }}">{{ verdict }}</span>
+            <p class="risk-text">{{ risk }}</p>
+        </div>
+    </section>
+
+    <!-- TRUST SIGNALS -->
+    <section class="card">
+        <h3>Trust Signals</h3>
+
+        {% for key, value in signals.items() %}
+        <div class="signal">
+            <span class="signal-name">{{ key }}</span>
+
+            <div class="bar">
+                <div class="fill" style="width: {{ value }}%"></div>
             </div>
-            <div class="progress">
-                <div style="width: {{ result.reputation }}%"></div>
+
+            <span class="signal-value">{{ value }}%</span>
+        </div>
+        {% endfor %}
+    </section>
+
+    <!-- HIGHLIGHTS -->
+    <section class="card highlights">
+        <h3>Key Highlights</h3>
+
+        <div class="highlight-grid">
+            <div>
+                <h4 class="positive-title">Positive Indicators</h4>
+                <ul class="positive-list">
+                    {% for item in positives %}
+                    <li>✔ {{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="negative-title">Risk Indicators</h4>
+                <ul class="negative-list">
+                    {% for item in negatives %}
+                    <li>⚠ {{ item }}</li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
+    </section>
 
-        <div class="bar">
-            <div class="bar-header">
-                <span>Risk Indicators</span>
-                <span>{{ result.risk }}/100</span>
-            </div>
-            <div class="progress">
-                <div style="width: {{ result.risk }}%"></div>
-            </div>
-        </div>
-    </div>
+    <!-- SAFETY SUGGESTIONS -->
+    <section class="card">
+        <h3>Safety Recommendations</h3>
+        <ul class="suggestion-list">
+            {% for tip in suggestions %}
+            <li>🔹 {{ tip }}</li>
+            {% endfor %}
+        </ul>
+    </section>
 
-    <!-- WARNINGS -->
-    <div class="warnings">
-        <h4>Detected Risk Signals</h4>
-        {% if result.reasons %}
-            <ul>
-                {% for reason in result.reasons %}
-                    <li>{{ reason }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No significant risk indicators detected.</p>
-        {% endif %}
-    </div>
+    <!-- CONCLUSION -->
+    <section class="card conclusion">
+        <h3>Overall Assessment</h3>
+        <p>
+            This trust score is generated using simulated AI heuristics and
+            technical indicators. While it provides a helpful risk overview,
+            users are advised to apply personal judgment before interacting
+            with any website.
+        </p>
+    </section>
 
-    <!-- ACTION -->
-    <a href="/" class="back-btn">Check another website</a>
+    <a href="/" class="back-link">← Run another analysis</a>
 
-</section>
-
+</div>
 </body>
 </html>

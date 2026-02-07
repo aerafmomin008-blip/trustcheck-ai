@@ -2,67 +2,118 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TrustCheck AI | Check if a Website is Safe</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrustCheck AI | Website Trust Analysis</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
-<header class="topbar">
-    <div class="brand">
-        <img src="{{ url_for('static', filename='images/logo.png') }}">
-        <span>TrustCheck AI</span>
+<div class="container">
+
+    <!-- HEADER -->
+    <header class="header">
+        <h1>TrustCheck AI</h1>
+        <p class="subtitle">
+            AI-powered website trust analysis to identify potential security and fraud risks
+        </p>
+    </header>
+
+    <!-- ERROR MESSAGE -->
+    {% if error %}
+    <div class="error-box">
+        {{ error }}
     </div>
-</header>
+    {% endif %}
 
-<!-- HERO -->
-<section class="hero">
-    <h1>Check if a Website is <span>Safe or a Scam</span></h1>
-    <p>AI-powered trust analysis using security signals, domain data, and scam indicators.</p>
+    <!-- ANALYSIS CARD -->
+    <section class="card">
+        <h3>Analyze a Website</h3>
 
-    <form method="POST" class="check-form">
-        <input type="text" name="url" placeholder="Enter website URL (example.com)" required>
-        <button type="submit">Check Trust Score</button>
-    </form>
+        <form method="POST" autocomplete="off" id="analyze-form">
+            <div class="input-wrapper">
+                <input
+                    type="text"
+                    name="website"
+                    id="website-input"
+                    class="input-field"
+                    placeholder="Enter website URL (example: google.com)"
+                    required
+                >
 
-    <p class="hero-note">Free • No login required • Instant result</p>
-</section>
+                <!-- 🔽 LIVE SUGGESTIONS -->
+                <ul id="suggestions" class="suggestions-box"></ul>
+            </div>
 
-<!-- TRUST SIGNALS -->
-<section class="trust-strip">
-    <div>🔒 SSL & Security</div>
-    <div>🌐 Domain History</div>
-    <div>⚠️ Scam Signals</div>
-    <div>📊 Reputation Data</div>
-</section>
+            <button type="submit" class="primary-btn">
+                Run Trust Analysis
+            </button>
+        </form>
+    </section>
 
-<!-- FEATURES -->
-<section class="features">
-    <h2>Why TrustCheck AI?</h2>
+    <!-- WHY TRUSTCHECK -->
+    <section class="card">
+        <h3>Why TrustCheck AI?</h3>
+        <p class="text-muted">
+            TrustCheck AI evaluates websites using multiple simulated indicators such as
+            domain behavior patterns, risk heuristics, and common fraud signals.
+        </p>
+    </section>
 
-    <div class="feature-grid">
-        <div class="feature-card">
-            <h3>AI-Driven Analysis</h3>
-            <p>Combines multiple public signals to detect scam patterns and risks.</p>
-        </div>
+    <!-- DISCLAIMER -->
+    <footer class="disclaimer">
+        <p>
+            Disclaimer: TrustCheck AI provides automated and simulated trust analysis for
+            educational purposes only.
+        </p>
+    </footer>
 
-        <div class="feature-card">
-            <h3>Instant Trust Score</h3>
-            <p>Get a clear 0–100 score with safety classification in seconds.</p>
-        </div>
+</div>
 
-        <div class="feature-card">
-            <h3>Actionable Advice</h3>
-            <p>Understand what steps to take before sharing data or making payments.</p>
-        </div>
-    </div>
-</section>
+<!-- 🔥 AUTOCOMPLETE SCRIPT -->
+<script>
+const input = document.getElementById("website-input");
+const suggestionsBox = document.getElementById("suggestions");
+const form = document.getElementById("analyze-form");
 
-<!-- DISCLAIMER -->
-<footer class="footer">
-    <p>TrustCheck AI provides automated risk analysis and does not guarantee safety.</p>
-    <p>© 2026 TrustCheck AI</p>
-</footer>
+input.addEventListener("input", async () => {
+    const query = input.value.trim();
+
+    if (query.length < 1) {
+        suggestionsBox.innerHTML = "";
+        return;
+    }
+
+    const res = await fetch(`/suggest?q=${query}`);
+    const data = await res.json();
+
+    suggestionsBox.innerHTML = "";
+
+    data.forEach(site => {
+        const li = document.createElement("li");
+        li.textContent = site;
+
+        li.addEventListener("click", () => {
+            input.value = site;
+            suggestionsBox.innerHTML = "";
+        });
+
+        suggestionsBox.appendChild(li);
+    });
+});
+
+// Prevent closing when clicking inside input or suggestions
+input.addEventListener("click", e => e.stopPropagation());
+suggestionsBox.addEventListener("click", e => e.stopPropagation());
+
+// Close suggestions on outside click
+document.addEventListener("click", () => {
+    suggestionsBox.innerHTML = "";
+});
+
+// Clear suggestions on submit
+form.addEventListener("submit", () => {
+    suggestionsBox.innerHTML = "";
+});
+</script>
 
 </body>
 </html>
