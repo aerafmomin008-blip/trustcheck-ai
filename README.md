@@ -8,37 +8,52 @@ TrustCheckAI is a machine learning based web application that helps assess websi
 - Machine learning model for prediction
 - Model training script
 - Website datasets used for the project
-- Simple result page for displaying predictions
+- Result page for displaying predictions
 
 ## Tech Stack
 
 - Python
 - Machine Learning
-- HTML and CSS
 - Pandas
 - NumPy
+- HTML and CSS
 
 ## Project Structure
 
-```text
-trustcheck-ai/
-├── app.py                       # Main application
-├── train_model.py               # Model training script
-├── requirements.txt             # Project dependencies
-├── model/
-│   └── model.pkl                # Trained ML model
-├── data/
-│   └── websites.csv             # Dataset
-├── static/                      # CSS and images
+    trustcheck-ai/
+    |-- app.py
+    |-- train_model.py
+    |-- requirements.txt
+    |-- model/
+    |   `-- model.pkl
+    |-- data/
+    |   `-- websites.csv
+    |-- static/
+    |-- templates/
+    |-- website_trust_dataset.csv
+    `-- websites.csv
 
-git clone https://github.com/aerafmomin008-blip/trustcheck-ai.git
-cd trustcheck-ai
+## Getting Started
 
-pip install -r requirements.txt
+1. Clone the repository:
 
-python train_model.py
+    git clone https://github.com/aerafmomin008-blip/trustcheck-ai.git
+    cd trustcheck-ai
 
-python app.py
-├── templates/                   # HTML pages
-├── website_trust_dataset.csv
-└── websites.csv
+2. Install the required libraries:
+
+    pip install -r requirements.txt
+
+3. Train the model if required:
+
+    python train_model.py
+
+4. Run the application:
+
+    python app.py
+
+## Author
+
+Aeraf Naeem Momin  
+BSc Artificial Intelligence and Machine Learning Student  
+Pune, India
