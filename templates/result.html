@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trust Report | TrustCheck AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+<div class="container">
+
+    <!-- HEADER -->
+    <header class="header">
+        <h1>Trust Analysis Report</h1>
+        <p class="subtitle">Automated Website Credibility Assessment</p>
+    </header>
+
+    <!-- SCORE CARD -->
+    <section class="score-card {{ verdict|lower }}">
+        <div class="score-circle">
+            <span class="score">{{ trust_score }}</span>
+            <span class="outof">/100</span>
+        </div>
+
+        <div class="score-info">
+            <p class="label">Analyzed Website</p>
+            <h2>{{ website }}</h2>
+
+            <span class="badge {{ verdict|lower }}">{{ verdict }}</span>
+            <p class="risk-text">{{ risk }}</p>
+        </div>
+    </section>
+
+    <!-- TRUST SIGNALS -->
+    <section class="card">
+        <h3>Trust Signals</h3>
+
+        {% for key, value in signals.items() %}
+        <div class="signal">
+            <span class="signal-name">{{ key }}</span>
+
+            <div class="bar">
+                <div class="fill" style="width: {{ value }}%"></div>
+            </div>
+
+            <span class="signal-value">{{ value }}%</span>
+        </div>
+        {% endfor %}
+    </section>
+
+    <!-- HIGHLIGHTS -->
+    <section class="card highlights">
+        <h3>Key Highlights</h3>
+
+        <div class="highlight-grid">
+            <div>
+                <h4 class="positive-title">Positive Indicators</h4>
+                <ul class="positive-list">
+                    {% for item in positives %}
+                    <li>✔ {{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="negative-title">Risk Indicators</h4>
+                <ul class="negative-list">
+                    {% for item in negatives %}
+                    <li>⚠ {{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SAFETY SUGGESTIONS -->
+    <section class="card">
+        <h3>Safety Recommendations</h3>
+        <ul class="suggestion-list">
+            {% for tip in suggestions %}
+            <li>🔹 {{ tip }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <!-- 🤖 AI SECURITY ANALYSIS (NEW SECTION) -->
+    <section class="card">
+        <h3>🤖 AI Security Analysis</h3>
+
+        {% if ai_analysis %}
+            <div class="ai-box">
+                <pre style="white-space: pre-wrap; font-family: inherit;">
+{{ ai_analysis }}
+                </pre>
+            </div>
+        {% else %}
+            <p>AI analysis currently unavailable.</p>
+        {% endif %}
+    </section>
+
+    <!-- CONCLUSION -->
+    <section class="card conclusion">
+        <h3>Overall Assessment</h3>
+        <p>
+            This trust score is generated using simulated AI heuristics and
+            technical indicators. While it provides a helpful risk overview,
+            users are advised to apply personal judgment before interacting
+            with any website.
+        </p>
+    </section>
+
+    <a href="/" class="back-link">← Run another analysis</a>
+
+</div>
+</body>
+</html>
